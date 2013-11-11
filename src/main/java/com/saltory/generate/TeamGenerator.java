@@ -7,8 +7,21 @@ import java.util.List;
 import org.seasar.util.collection.Indexed;
 import org.seasar.util.collection.IndexedIterator;
 
-public class PersonGenerator {
+/**
+ * 2人チームを作成するクラス
+ * 
+ * @author saltory
+ *
+ */
+public class TeamGenerator {
 
+	/**
+	 * 2人チームを作成する。
+	 * TODO:idは自動作成できるようにする。
+	 * 
+	 * @param persons
+	 * @return
+	 */
 	public List<Team> generate(List<Person> persons) {
 		Collections.shuffle(persons);
 		List<Team> teams = new ArrayList<>();

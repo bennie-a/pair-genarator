@@ -1,5 +1,11 @@
 package com.saltory.generate;
 
+/**
+ * チームクラス
+ * 
+ * @author saltory
+ *
+ */
 public class Team {
 
 	private Person first;
