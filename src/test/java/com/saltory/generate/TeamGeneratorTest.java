@@ -1,66 +1,87 @@
 package com.saltory.generate;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.seasar.util.collection.Indexed;
+import org.seasar.util.collection.IndexedIterator;
 
 public class TeamGeneratorTest {
 
 	@Test
 	public void 偶数件() {
-		List<Person> list = new ArrayList<>();
-		list.add(new Person("11", "佐々木"));
-		list.add(new Person("12", "清水"));
-		list.add(new Person("13", "藤原"));
-		list.add(new Person("14", "森下"));
-		list.add(new Person("15", "森"));
-		list.add(new Person("16", "山口"));
+		List<String> list = new ArrayList<>();
+		list.add("佐々木");
+		list.add("清水");
+		list.add("藤原");
+		list.add("森下");
+		list.add("森");
+		list.add("山口");
 		generate(list);
 	}
 
-	
 	@Test
 	public void 奇数件() {
-		List<Person> list = new ArrayList<>();
-		list.add(new Person("11", "佐々木"));
-		list.add(new Person("12", "清水"));
-		list.add(new Person("13", "藤原"));
-		list.add(new Person("14", "森下"));
-		list.add(new Person("15", "森"));
+		List<String> list = new ArrayList<>();
+		list.add("佐々木");
+		list.add("清水");
+		list.add("藤原");
+		list.add("森下");
+		list.add("森");
 		generate(list);
 	}
+
+	@Test
+	public void 入力値が重複する() {
+		try {
+			List<String> list = new ArrayList<>();
+			list.add("佐々木");
+			list.add("清水");
+			list.add("森");
+			list.add("森下");
+			list.add("森");
+			generate(list);
+		} catch (RuntimeException e) {
+			assertThat(e.getMessage(), is("入力値が重複しています:森"));
+		}
+	}
+	
+
 	
 	@Test
 	public void ドラクエメンバー() {
-		List<Person> list = new ArrayList<>();
-		list.add(new Person("11", "ベニー"));
-		list.add(new Person("12", "にゃん"));
-		list.add(new Person("13", "いつきんぐ"));
-		list.add(new Person("14", "ジン"));
-		list.add(new Person("15", "やっと"));
-		list.add(new Person("16", "もなか"));
-		list.add(new Person("17", "たらすぱ"));
-		list.add(new Person("18", "うーちゃん"));
-		list.add(new Person("19", "ピトー"));
-		list.add(new Person("20", "ゲオルグ"));
-		list.add(new Person("21", "クロウメ"));
-		list.add(new Person("22", "マリーダ"));
+		List<String> list = new ArrayList<>();
+		list.add("ベニー");
+		list.add("にゃん");
+		list.add("いつきんぐ");
+		list.add("ジン");
+		list.add("やっと");
+		list.add("もなか");
+		list.add("たらすぱ");
+		list.add("うーちゃん");
+		list.add("ピトー");
+		list.add("ゲオルグ");
+		list.add("クロウメ");
+		list.add("マリーダ");
 		generate(list);
-		
 	}
 
-	private void generate(List<Person> list) {
+	private void generate(List<String> list) {
 		TeamGenerator generator = new TeamGenerator();
 		List<Team> teams = generator.generate(list);
-		for (Team t : teams) {
+		for (Indexed<Team> indexed : IndexedIterator.indexed(teams)) {
 			StringBuilder sb = new StringBuilder();
-			Person first = t.getFirst();
-			sb.append(first.getId() + ":" + first.getName());
-			Person second = t.getSecond();
+			sb.append(indexed.getIndex() + 1 + ":");
+			Team t = indexed.getElement();
+			sb.append(t.getFirst());
+			String second = t.getSecond();
 			if (second != null) {
-				sb.append(" , ");
-				sb.append(second.getId() + ":" + second.getName());
+				sb.append("/");
+				sb.append(second);
 			}
 			System.out.println(sb.toString());
 		}

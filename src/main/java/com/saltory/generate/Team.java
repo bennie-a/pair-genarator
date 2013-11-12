@@ -8,23 +8,23 @@ package com.saltory.generate;
  */
 public class Team {
 
-	private Person first;
+	private String first;
 	
-	private Person second;
+	private String second;
 
-	public Person getFirst() {
+	public String getFirst() {
 		return first;
 	}
 
-	public void setFirst(Person first) {
+	public void setFirst(String first) {
 		this.first = first;
 	}
 
-	public Person getSecond() {
+	public String getSecond() {
 		return second;
 	}
 
-	public void setSecond(Person second) {
+	public void setSecond(String second) {
 		this.second = second;
 	}
 }
